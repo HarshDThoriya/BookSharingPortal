@@ -23,4 +23,6 @@ urlpatterns = [
     url(r'^$',views.index,name='index'),
     url(r'^loginapp/',include('loginapp.urls')),
     url(r'^homepage/',include('homepage.urls')),
+    url(r'^user_profile/',include('user_profile.urls')),
+
 ]

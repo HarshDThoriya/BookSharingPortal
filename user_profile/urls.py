@@ -5,5 +5,5 @@ from django.urls import path
 app_name = 'user_profile'
 
 urlpatterns = [
-    path('user_profile/',views.user_profile,name = 'user_profile'),
+    url(r'^profile/$',views.user_profile,name="profile"),
 ]
