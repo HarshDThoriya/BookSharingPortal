@@ -2,10 +2,35 @@
 {% block nav_block %}
 <ul class="nav navbar-nav">
   <li><a class="navbar-brand" href="{% url 'homepage:home' %}">Home</a></li>  
+  <li><a class="navbar-link" href="#" data-toggle="modal" data-target="#myModal" >Add Post</a></li>
   <li><a class="navbar-link" href="{% url 'homepage:profile' %}">Profile</a></li>
 </ul>
 {% endblock %}
 {% block body_block %}
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-lg">
+	<!-- Modal content-->
+	<div class="modal-content">
+	  <div class="modal-header">
+          <!-- modal header  -->
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <center><h4 class="modal-title">Add Post</h4></center>
+	  </div>
+	  <div class="modal-body">
+      <form method="POST" action="{% url 'homepage:addpost' %}">
+        {% csrf_token %}
+        {{form.as_p}}
+        
+        <input type="submit" value="Submit" >
+      </form>
+	  </div>
+	  <div class="modal-footer">
+          <!-- modal footer  -->
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+       </div>
+   </div>
+</div>
 <div class="container">
   <div class="jumbotron">
     <h1>Welcome to Book Sharing Portal</h1>

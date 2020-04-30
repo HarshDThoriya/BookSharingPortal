@@ -1,21 +1,79 @@
 {% extends "loginapp/base.html" %}
 {% load static %}
 {% block body_block %}
-  <div class="container">
-    <div class="jumbotron">
-      {% if registered %}
-        <h1>Thank you for registering!</h1>
-      {% else %}
-        <h1>Register Here</h1>
-        <h3>Just fill out the form.</h3>
-<form enctypze="multipart/form-data" method="POST">
-          {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <input type="submit" name="" value="Register">
-        </form>
-        
-      {% endif %}
-    </div>
-  </div>
+<!--<div class="container">
+    <form method="POST" action="{% url 'loginapp:register' %}" >
+      {% csrf_token %}
+      <div class="col-md-8 col-md-offset-2">
+          <div class="panel panel-default">
+              <div class="panel-heading">Register</div>
+              <div class="panel-body">
+                  {% if error_message %}
+                      <p class="bg-danger p-d ml-b">{{ error_message }}</p>
+                  {% endif %}
+                  
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">Username<span class="text-red">*</span>:</label>
+                      <div class="col-md-6">
+                          {{ form.username }}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">Email<span class="text-red">*</span>:</label>
+                      <div class="col-md-6">
+                          {{ form.email }}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">Password<span class="text-red">*</span>:</label>
+                      <div class="col-md-6">
+                          {{ form.password}}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                    <label class="col-md-4 control-label text-right">Password2<span class="text-red">*</span>:</label>
+                    <div class="col-md-6">
+                        {{ form.password2 }}
+                    </div>
+                </div>
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">First Name:</label>
+                      <div class="col-md-6">
+                          {{ form.first_name }}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">Last Name:</label>
+                      <div class="col-md-6">
+                          {{ form.last_name }}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                      <label class="col-md-4 control-label text-right">Phone Number:</label>
+                      <div class="col-md-6">
+                          {{ profile_form.phone_number }}
+                      </div>
+                  </div>
+                  <div class="form-group clearfix">
+                    <label class="col-md-4 control-label text-right">portfolio site:</label>
+                    <div class="col-md-6">
+                        {{ profile_form.portfolio_site }}
+                    </div>
+                </div>
+                  <div class="col-md-6 col-md-offset-4">
+                      <input type="submit" value="Register" class="btn btn-success">
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>  -->
+
+<form method="POST" action="{% url 'loginapp:register' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ profile_form.as_p }}
+    <input type="submit" value="crate new account">
+</form>
+
+</div>
 {% endblock %}
