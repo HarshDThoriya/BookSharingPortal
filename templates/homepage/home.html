@@ -4,6 +4,7 @@
   <li><a class="navbar-brand" href="{% url 'homepage:home' %}">Home</a></li>  
   <li><a class="navbar-link" href="#" data-toggle="modal" data-target="#myModal" >Add Post</a></li>
   <li><a class="navbar-link" href="{% url 'homepage:profile' %}">Profile</a></li>
+  <li><a class="navbar-link" href="{% url 'loginapp:user_logout' %}">Logout</a></li>
 </ul>
 {% endblock %}
 {% block body_block %}
@@ -17,7 +18,7 @@
 		  <center><h4 class="modal-title">Add Post</h4></center>
 	  </div>
 	  <div class="modal-body">
-      <form method="POST" action="{% url 'homepage:addpost' %}">
+      <form method="POST" action="{% url 'homepage:addpost' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{form.as_p}}
         

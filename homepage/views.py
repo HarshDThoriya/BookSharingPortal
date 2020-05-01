@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
@@ -7,6 +6,7 @@ from . import forms
 from . import models
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from .forms import ItemForm
 
 
 def home(request):
@@ -17,20 +17,19 @@ def profile(request):
     return HttpResponseRedirect(reverse('user_profile:profile'))
 
 def addpost(request):
-    form = forms.ItemForm()
+    
     if request.method == 'POST':
-        print(request.POST)
-        form = forms.ItemForm(data=request.POST)
-        print(form.is_valid())
-        print(form)
+        form = ItemForm(request.POST,request.FILES)
+
         if form.is_valid():
-            u = form.save()
+            f=form.save(commit=False)
+            f.user=request.user
+            #f.user.set([request.user]
+            #form.user = User.objects.get(username=request.user.username)
+            
+            f.save()
+
             return HttpResponseRedirect(reverse('homepage:home'))
-        else:
-            print("hbufewewOIAKSMDJV SADKMO;IDFJVAOCMVND KVSL;ASMVDKFJP[VFD KFCMAMSK DFSLDKCA;M NDFVLC;LF VNSDL")
-
-
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",request.method == 'POST')
-    form1 = forms.ItemForm()
+    
     return HttpResponseRedirect(reverse('homepage:home'))
     

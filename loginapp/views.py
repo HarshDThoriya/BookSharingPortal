@@ -23,16 +23,11 @@ def register(request):
             profile = profile_form.save(commit=False)
 
             profile.user = user
-
+            user.set_password(user.password)
             profile.save()
 
-            username=form.cleaned_data.get('username')
-            password=form.cleaned_data.get('password')
-            user = authenticate(username=username,password=password)
-            print()
-            login(request, user)
                
-            return HttpResponseRedirect(reverse('homepage:home'))
+            return HttpResponseRedirect(reverse('loginapp:user_login'))
 
    
     else:
