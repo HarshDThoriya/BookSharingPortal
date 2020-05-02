@@ -7,11 +7,13 @@ from . import models
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import ItemForm
+from .models import itemInfo
 
 
 def home(request):
+    posts = itemInfo.objects.all()
     form = forms.ItemForm()
-    return render(request,'homepage/home.html',{'form':form})
+    return render(request,'homepage/home.html',{'form':form,'posts':posts})
 
 def profile(request):
     return HttpResponseRedirect(reverse('user_profile:profile'))
