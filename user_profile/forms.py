@@ -9,10 +9,11 @@ class EditProfileForm(UserChangeForm):
         fields = (
             'email',
             'username',
-            'password',
+            'first_name',
+            'last_name',
         )
 
-# class EditProfileInfoForm(UserChangeForm):
-#     class Meta:
-#         model = UserProfileInfo
-#         fields = ('portfolio_site','profile_pic')
+class EditProfileInfoForm(UserChangeForm):
+    class Meta:
+        model = UserProfileInfo
+        fields = ('portfolio_site','phone_number','profile_picture')
