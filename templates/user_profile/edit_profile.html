@@ -2,10 +2,13 @@
 
 <div class="container">
 
-<form method = "POST">
+<form method = "POST" enctype="multipart/form-data">
 {% csrf_token %}
-{{ form.as_p }}
-<button type = "submit" name = "button" value = "submit"> Submit </button>
+{% comment %} {{ form1.as_p }}
+{{ form2.as_p }} {% endcomment %}
+{{ form1.as_p }}
+{{ form2.as_p}}
+<button type = "submit" value = "submit"> Submit </button>
 
 </form>
 
