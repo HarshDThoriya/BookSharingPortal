@@ -1,4 +1,5 @@
 {% extends "homepage/base.html" %}
+
 {% block nav_block %}
 
 <ul class="navbar-nav" >
@@ -12,8 +13,18 @@
     <a class="nav-link" href="{% url 'homepage:profile' %}">Profile</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="{% url 'homepage:myposts' %}">My Posts</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link" href="{% url 'loginapp:user_logout' %}">Logout</a>
   </li>
+  <div  method="GET" action="." style="margin-left: 20px;">
+    <form class="form-inline">
+      <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="homesearch">
+      <button style="margin-left:3px; size: 30px;" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+  
 </ul>
 {% endblock %}
 
@@ -50,30 +61,76 @@
 
 </div>
 <div style="position: absolute;
-top: 57px;
-left: 0;
-width: 25%;
-height: 90.5%;
-border: 5px solid #195e83;
-border-radius: 5px;">
-<p> abc abc abc abc</p>
-<p> abc abc abc abc</p>
-<p> abc abc abc abc</p>
-<p> abc abc abc abc</p>
-<p> abc abc abc abc</p>
+top: 62px;
+left: 6px;
+width: 20%;
+height: 89%;
+background-color: lightgrey;
+border-radius: 15px;
+padding-top: 20px;
+position: fixed;">
+
+<p style="margin-left: 40%; zoom: 1.3;">Filter </p>
+<form  method="GET" action="." style="margin-left: 10%;">
+  {% csrf_token %}
+  <div class="custom-control custom-checkbox mb-3">
+    <input type="checkbox"  class="custom-control-input" id="customCheck1" name="book" >
+    <label class="custom-control-label" for="customCheck1" style="zoom: 1.2;">Book</label>
+  </div>
+  <div class="custom-control custom-checkbox mb-3">
+    <input type="checkbox"  class="custom-control-input" id="customCheck2" name="stationary">
+    <label class="custom-control-label" for="customCheck2" style="zoom: 1.2;">Stationary</label>
+  </div>
+  <div class="custom-control custom-checkbox mb-3">
+    <input type="checkbox"  class="custom-control-input" id="customCheck3" name="others">
+    <label class="custom-control-label" for="customCheck3" style="zoom: 1.2;">Others</label>
+  </div>
+  <input type="submit" style="margin-left: 30%;" class="btn btn-info" value="Apply">
+</form>
+
+<p style="margin-left: 37%; zoom: 1.3; margin-top: 20px;">Sort By </p>
+<form method="GET" action="." style="margin-left: 10%;">
+  {% csrf_token %}
+  <div class="custom-control custom-radio">
+    <input type="radio" class="custom-control-input" id="customRadio1" name="byitemname">
+    <label class="custom-control-label" for="customRadio1" style="zoom: 1.2; margin-bottom: 12px;">Item name</label>
+  </div>
+  <div class="custom-control custom-radio">
+    <input type="radio" class="custom-control-input" id="customRadio2" name="timeadded">
+    <label class="custom-control-label" for="customRadio2" style="zoom: 1.2; margin-bottom: 18px;">Time added</label>
+  </div>
+  <input type="submit" style="margin-left: 30%;" class="btn btn-info" value="Apply">
+</form>
+
 </div>
 
 
 <div style="position: absolute;
-top: 57px;
-right: 0;
-width: 74.8%;
-height: 90.5%;
-border: 5px solid #195e83;
-border-radius: 5px;">
+top: 62px;
+right: 6px;
+width: 78.7%;
+height: 89%;
+background-color: lightgrey;
+border-radius: 15px;
+padding-left: 5px;
+padding-right: 5px;
+padding-bottom: 6px;
+position: fixed;
+overflow:auto;">
 
   {% for i in posts%}
-  <div style="display: block; padding-top: 20px; margin-left: 0.2%; margin-right: 0.2%; margin-top: 0.2%; background-color: cadetblue; border-radius: 5px;">
+  <div style="display: block; 
+  width: 32.9%; 
+  height: 48.3%;
+  float: left; 
+  padding-top: 20px; 
+  margin-left: 0.2%; 
+  margin-right: 0.2%;     
+  margin-top: 0.6%;  
+  background-color: cadetblue; 
+  border-radius: 15px;
+  position: relative;
+  ">
     <p>{{i.item_name}}</p>
   </div>
 

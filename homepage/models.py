@@ -7,6 +7,7 @@ from django.conf import settings
 item_choice = (
    ('B', 'Book'),
    ('S', 'Stationary'),
+   ('O','Others'),
 )
 
 class itemInfo(models.Model):
