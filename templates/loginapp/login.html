@@ -1,6 +1,6 @@
-{% extends 'loginapp/base.html' %}
-{% block body_block %}
-  <div class="container">
+{% comment %} {% extends 'loginapp/base.html' %} {% endcomment %}
+{% comment %} {% block body_block %} {% endcomment %}
+<!--  <div class="container">
     <div class="jumbotron">
       <h1>Login here :</h1>
 <form method="post" action="{% url 'loginapp:user_login' %}">
@@ -12,5 +12,63 @@
 <input type="submit" name="" value="Login">
 </form>
 </div>
-  </div>
-{% endblock %}
+  </div>-->
+{% comment %} {% endblock %} {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign In Form</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../../static/loginapp/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../../static/loginapp/css/style.css">
+
+</head>
+<body>
+
+{% block body_block %}
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="../../static/loginapp/images/signin-image.jpg" alt="sing up image"></figure>
+                        <a href="{% url 'loginapp:register' %}" style="font-size:20px;" class="signup-image-link">Create an account</a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Sign In</h2>
+                        <form method="POST" action="{% url 'loginapp:user_login' %}" class="register-form" id="login-form">
+                            {%csrf_token%}
+                            <div class="form-group">
+                                <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="username" id="your_name" placeholder="Username"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="your_pass" placeholder="Password"/>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Login"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    {% endblock %}
+    <!-- JS -->
+    <script src="../../static/loginapp/vendor/jquery/jquery.min.js"></script>
+    <script src="../../static/loginapp/js/main.js"></script>
+   
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
