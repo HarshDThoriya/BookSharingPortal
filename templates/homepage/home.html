@@ -1,37 +1,91 @@
 {% extends "homepage/base.html" %}
-
+{% load static %}
+<style>
+.modald {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .modald-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        width: 24rem;
+        border-radius: 0.5rem;
+    }
+    .close-button {
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+    }
+    .close-button:hover {
+        background-color: darkgray;
+    }
+    .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+</style>
 {% block nav_block %}
 
-<ul class="navbar-nav" >
+<ul class="navbar-nav mr-auto" >
   <li class="nav-item">
     <a class="navbar-brand" href="{% url 'homepage:home' %}">Home</a>
   </li>
   <li class="nav-item">
     <a class="nav-link"  href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'homepage:profile' %}">Profile</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'homepage:myposts' %}">My Posts</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'loginapp:user_logout' %}">Logout</a>
-  </li>
-  <div  method="GET" action="." style="margin-left: 20px;">
-    <form class="form-inline">
-      <input class="form-control" type="text" placeholder="Search" aria-label="Search" name="homesearch">
+
+ 
+</ul>
+  <div  method="GET" action="." style="margin-left: 20px;" class="form-inline ml-auto">
+    <form class=" my-2 my-lg-0" >
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="homesearch">
       <button style="margin-left:3px; size: 30px;" type="submit"><i class="fa fa-search"></i></button>
     </form>
-  </div>
   
-</ul>
+
+  
+  <li class="nav-item dropdown ml-auto" style="margin-top: -2rem;">
+    <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/media/profile_pics/download.png" class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
+      </a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'homepage:myposts' %}">My Post</a>
+      
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{% url 'loginapp:user_logout' %}">Logout</a>
+    </div>
+  </li>
+</div>
+  
+
 {% endblock %}
 
 {% block body_block %}
 
+
+
+
+
+
 <div class="modal fade" id="myModal">
-  <div class="modal-dialog modal-xl">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
     
       
@@ -50,7 +104,6 @@
         </form>
       </div>
       
-      <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -60,6 +113,86 @@
 </div>
 
 </div>
+
+
+<script>
+
+  $(function(){
+      $('.show_product').on('click', function (e) {
+          e.preventDefault();
+          let product_id = $(this).attr('id');
+
+          $.ajax({
+              url:'/homepage/home/',
+              type:'POST',
+              data: $('#form_have_product_'+product_id).serialize(),
+              success:function(response){
+                  console.log(response);
+                  $('.show_product').trigger("reset");
+                  openModal(response);
+              },
+              error:function(){
+                  console.log('something went wrong here');
+              },
+          });
+      });
+  });
+ 
+  function openModal(product_data){
+    $('#product_name').text(product_data.p_name);
+    $('#desc').text(product_data.desc);
+    $('#datetime').text(product_data.dt);
+    $('#by').text(product_data.by);
+    $('#type').text(product_data.tp);
+    $('#pic1').attr('src','/media/'+product_data.pic1)
+    $('#pic2').attr('src','/media/'+product_data.pic2)
+  };
+
+</script>
+
+
+
+<div class="modal fade" id="myModal1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-5">
+            <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
+              <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                  <img id="pic1" style="height: 350px;" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                  <img id="pic2" style="height: 350px" class="d-block w-100">
+                </div>
+              </div>
+              <a class="carousel-control-prev" href="#carousel-thumb" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carousel-thumb" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-7" style="padding-left: 10px; margin-top: 1rem; word-wrap: break-word;">
+            <h2 id="product_name" style="white-space: initial;"></h2>
+            <p id="type"></p> by <p id="by"></p>
+            <div id="description1" class="description1" style="color: #21518A;">
+                <p id="desc"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 <div style="position: absolute;
 top: 62px;
 left: 6px;
@@ -119,20 +252,34 @@ position: fixed;
 overflow:auto;">
 
   {% for i in posts%}
-  <div style="display: block; 
-  width: 32.9%; 
-  height: 48.3%;
-  float: left; 
-  padding-top: 20px; 
-  margin-left: 0.2%; 
-  margin-right: 0.2%;     
-  margin-top: 0.6%;  
-  background-color: cadetblue; 
-  border-radius: 15px;
-  position: relative;
-  ">
-    <p>{{i.item_name}}</p>
-  </div>
+  <a href="#" id="{{i.id}}" data-id="{{i.id}}" 
+  style="text-decoration: none; color: inherit;" data-toggle="modal" 
+  data-target="#myModal1" class="show_product" >
+
+    <div style="display: block; 
+    width: 24.6%; 
+    height: 68.8%;
+    float: left; 
+    padding-top: 0px; 
+    margin-left: 0.2%; 
+    margin-right: 0.2%;     
+    margin-top: 1.5%;  
+    background-color: grey; 
+    border-radius: 15px;
+    position: relative;
+    ">
+      <img src="/media/{{i.item_pic1}}" class="card-img-top" style="margin-left: 0px; width: 100%; height: 65%; border-radius: 10px 10px 0px 0px;" >
+      
+      <div><p style="margin-left: 13px;"> {{i.item_name}}</p>
+        <p style="margin-left: 13px;">{{i.item_des|slice:"0:10"}}...</p>
+      </div>
+      <form name="form" action="#" id="form_have_product_{{i.id}}" method="POST">
+        {% csrf_token %}
+        <input name="id" id="product_id_submit" type="text" value="{{i.id}}" hidden="true"/>
+      </form>
+    </div>
+
+</a>
 
 {% endfor%}
 

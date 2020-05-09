@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.urls import reverse
 from . import forms
 from . import models
@@ -12,6 +12,40 @@ from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
 from rest_framework.response import Response
+from django.http import JsonResponse
+import copy
+import json
+from django.forms.models import model_to_dict
+from django.core import serializers
+
+## other views functions are here.... ##
+
+def home(request):
+
+    
+    
+    psts=itemInfo.objects.values()
+    posts = filter(request)
+    form = forms.ItemForm()
+    context={'form':form,'posts':posts}
+
+
+    if request.method == 'POST' and request.is_ajax():
+        ID = request.POST.get('id')
+        p = itemInfo.objects.get(pk=ID) 
+        name = p.item_name 
+        t = p.item_type
+        dt = p.post_datetime
+        by = p.item_author
+        des = p.item_des
+        pic1 = str(p.item_pic1)
+        pic2 = str(p.item_pic2)
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2})
+    else:
+        return render(request,'homepage/home.html',context)
+
+
+
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
@@ -44,10 +78,6 @@ def filter(request):
         
     return all_posts
 
-def home(request):
-    posts = filter(request)
-    form = forms.ItemForm()
-    return render(request,'homepage/home.html',{'form':form,'posts':posts})
 
 def profile(request):
     return HttpResponseRedirect(reverse('user_profile:profile'))
