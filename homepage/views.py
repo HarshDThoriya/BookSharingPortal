@@ -21,9 +21,6 @@ from django.core import serializers
 ## other views functions are here.... ##
 
 def home(request):
-
-    
-    
     psts=itemInfo.objects.values()
     posts = filter(request)
     form = forms.ItemForm()

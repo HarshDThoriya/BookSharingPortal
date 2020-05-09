@@ -1,63 +1,20 @@
 {% extends "homepage/base.html" %}
 {% load static %}
-<style>
-.modald {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.1);
-        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-    }
-    .modald-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: white;
-        padding: 1rem 1.5rem;
-        width: 24rem;
-        border-radius: 0.5rem;
-    }
-    .close-button {
-        float: right;
-        width: 1.5rem;
-        line-height: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 0.25rem;
-        background-color: lightgray;
-    }
-    .close-button:hover {
-        background-color: darkgray;
-    }
-    .show-modal {
-        opacity: 1;
-        visibility: visible;
-        transform: scale(1.0);
-        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-    }
-</style>
 {% block nav_block %}
 
-<ul class="navbar-nav mr-auto" >
+<ul class="navbar-nav mr-auto">
   <li class="nav-item">
-    <a class="navbar-brand" href="{% url 'homepage:home' %}">Home</a>
+    <a class="navbar-brand" style="color: #17a2b8;" href="{% url 'homepage:home' %}">Home</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"  href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
+    <a class="nav-link"  style="color: #17a2b8; margin-top: 2px;" href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
   </li>
-
- 
 </ul>
+
   <div  method="GET" action="." style="margin-left: 20px;" class="form-inline ml-auto">
     <form class=" my-2 my-lg-0" >
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="homesearch">
-      <button style="margin-left:3px; size: 30px;" type="submit"><i class="fa fa-search"></i></button>
+      <input style="width: 200px; height: 35px;" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="homesearch">
+      <button style="width: 30px; height: 35px;" type="submit"><i class="fa fa-search"></i></button>
     </form>
   
 
@@ -80,16 +37,80 @@
 {% block body_block %}
 
 
+<style>
+.cards-list {
+  z-index: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.card {
+  float: left; 
+  margin-left: 30px;
+  margin-top:20px;
+  width: 225px;
+  height: 200px;
+  border-radius: 40px;
+  box-shadow: 5px 5px 3px 1px rgba(0,0,0,0.1), -5px -5px 3px 1px rgba(0,0,0,0.22);
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.card .card_image {
+  width: inherit;
+  height: inherit;
+  border-radius: 40px;
+}
+
+.card .card_image img {
+  width: inherit;
+  height: inherit;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.card .card_title {
+  text-align: center;
+  border-radius: 0px 0px 40px 40px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: -10px;
+  height: 40px;
+}
+
+.card:hover {
+  transform: scale(0.9, 0.9);
+  box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+    -5px -5px 30px 15px rgba(0,0,0,0.22);
+}
+
+.title-white {
+  color: white;
+}
+
+.title-black {
+  color: black;
+}
+
+@media all and (max-width: 500px) {
+  .card-list {
+    /* On small screens, we are no longer using row direction but column */
+    flex-direction: column;
+  }
+}
 
 
-
+</style>
 
 <div class="modal fade" id="myModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
     
       
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: #17a2b8;">
         <center><h4 class="modal-title">Add Post</h4></center>
         <button type="button" class="close" data-dismiss="modal">&times;</button> 
       </div>
@@ -104,7 +125,7 @@
         </form>
       </div>
       
-      <div class="modal-footer">
+      <div class="modal-footer" style="background-color: #17a2b8;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
       
@@ -238,52 +259,65 @@ position: fixed;">
 </div>
 
 
-<div style="position: absolute;
-top: 62px;
+<div class="example" style="top: 59px;
 right: 6px;
-width: 78.7%;
-height: 89%;
-background-color: lightgrey;
-border-radius: 15px;
-padding-left: 5px;
+width: 78.3%;
+height: 91%;
+border-radius: 11px;
 padding-right: 5px;
-padding-bottom: 6px;
+padding-bottom: 0px;
 position: fixed;
 overflow:auto;">
 
   {% for i in posts%}
-  <a href="#" id="{{i.id}}" data-id="{{i.id}}" 
+  <!--<a href="#" id="{{i.id}}" data-id="{{i.id}}" 
   style="text-decoration: none; color: inherit;" data-toggle="modal" 
   data-target="#myModal1" class="show_product" >
 
-    <div style="display: block; 
-    width: 24.6%; 
-    height: 68.8%;
+    <div class="box" style="display: block; 
+    width: 24%; 
+    height: 60%;
     float: left; 
     padding-top: 0px; 
-    margin-left: 0.2%; 
-    margin-right: 0.2%;     
-    margin-top: 1.5%;  
-    background-color: grey; 
-    border-radius: 15px;
+    margin-left: 0; 
+    margin-right: 1.002%; 
+    margin-bottom: 1%; 
+    background-color: lightgrey; 
+    border-radius: 10px;
+    border:solid 2px lightgrey;
     position: relative;
     ">
-      <img src="/media/{{i.item_pic1}}" class="card-img-top" style="margin-left: 0px; width: 100%; height: 65%; border-radius: 10px 10px 0px 0px;" >
+      <img src="/media/{{i.item_pic1}}" class="card-img-top" style="margin-left: 0px; width: 100%; height: 75%; border-radius: 10px 10px 0px 0px;" >
       
-      <div><p style="margin-left: 13px;"> {{i.item_name}}</p>
-        <p style="margin-left: 13px;">{{i.item_des|slice:"0:10"}}...</p>
+      <div style="word-wrap: break-word;"><center><p style="margin-top:10px; font-size: larger;"> {{i.item_name}}</p></center>
+        
       </div>
       <form name="form" action="#" id="form_have_product_{{i.id}}" method="POST">
         {% csrf_token %}
         <input name="id" id="product_id_submit" type="text" value="{{i.id}}" hidden="true"/>
       </form>
     </div>
+</a>-->
 
-</a>
+
+<a href="#" id="{{i.id}}" data-id="{{i.id}}" 
+style="text-decoration: none; color: inherit;" data-toggle="modal" 
+data-target="#myModal1" class="show_product" >
+
+  
+  <div class="card 1" >
+    <div class="card_image" style="height: 90%;"> <img src="/media/{{i.item_pic1}}" /> </div>
+    <div class="card_title title-white" style="word-wrap: break-word;">
+      <p style="color: black; font-size: 15px;" style="white-space: initial;">{{i.item_name|slice:"0:20"}}</p>
+    </div>
+    <form name="form" action="#" id="form_have_product_{{i.id}}" method="POST">
+      {% csrf_token %}
+      <input name="id" id="product_id_submit" type="text" value="{{i.id}}" hidden="true"/>
+    </form>
+  </div>
+  
+  </a>
 
 {% endfor%}
-
 </div>
-
-
 {% endblock %}
