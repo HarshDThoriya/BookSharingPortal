@@ -4,12 +4,12 @@
 
 <ul class="navbar-nav mr-auto">
   <li class="nav-item">
-    <a class="navbar-brand" style="color: #17a2b8;" href="{% url 'homepage:home' %}">Home</a>
+    <a class="navbar-brand" style="color: white" href="{% url 'homepage:home' %}">Home</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"  style="color: #17a2b8; margin-top: 2px;" href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
+    <a class="nav-link" id="addp" style="color: white; margin-top: 2px;" href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
   </li>
-</ul>
+</ul><!--   #17a2b8;  -->
 
   <div  method="GET" action="." style="margin-left: 20px;" class="form-inline ml-auto">
     <form class=" my-2 my-lg-0" >
@@ -20,13 +20,15 @@
 
   
   <li class="nav-item dropdown ml-auto" style="margin-top: -2rem;">
-    <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/media/profile_pics/download.png" class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
+    <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/media/{{piclink.profile_picture}}" class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
       </a>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="{% url 'homepage:myposts' %}">My Post</a>
-      
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="{% url 'homepage:profile' %}">Profile</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="{% url 'loginapp:user_logout' %}">Logout</a>
+      
     </div>
   </li>
 </div>
@@ -38,6 +40,10 @@
 
 
 <style>
+.navbar-brand:hover{
+  color: black;
+}
+
 .cards-list {
   z-index: 0;
   width: 100%;
@@ -172,6 +178,10 @@
 </script>
 
 
+<style>
+  
+
+</style>
 
 <div class="modal fade" id="myModal1">
   <div class="modal-dialog modal-lg">
@@ -220,7 +230,7 @@ left: 6px;
 width: 20%;
 height: 89%;
 background-color: lightgrey;
-border-radius: 15px;
+border-radius: 10px;
 padding-top: 20px;
 position: fixed;">
 

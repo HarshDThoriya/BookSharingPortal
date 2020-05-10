@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import ItemForm
 from .models import itemInfo
+from loginapp.models import UserProfileInfo
 from django.db.models import Q, Count
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics
@@ -24,7 +25,8 @@ def home(request):
     psts=itemInfo.objects.values()
     posts = filter(request)
     form = forms.ItemForm()
-    context={'form':form,'posts':posts}
+    piclink= UserProfileInfo.objects.all().filter(user=request.user)
+    context={'form':form,'posts':posts,'piclink':piclink}
 
 
     if request.method == 'POST' and request.is_ajax():
@@ -97,6 +99,25 @@ def addpost(request):
     return HttpResponseRedirect(reverse('homepage:home'))
 
 def myPosts(request):
-    all_posts = itemInfo.objects.all()
-    return render(request,'homepage/myposts.html',{'all_posts':all_posts})
+    psts=itemInfo.objects.values()
+    posts = filter(request)
+    form = forms.ItemForm()
+    piclink= UserProfileInfo.objects.all().filter(user=request.user)
+    context={'form':form,'posts':posts,'piclink':piclink}
+
+
+    if request.method == 'POST' and request.is_ajax():
+        ID = request.POST.get('id')
+        p = itemInfo.objects.get(pk=ID) 
+        name = p.item_name 
+        t = p.item_type
+        dt = p.post_datetime
+        by = p.item_author
+        des = p.item_des
+        pic1 = str(p.item_pic1)
+        pic2 = str(p.item_pic2)
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2})
+    else:
+        return render(request,'homepage/home.html',context)
+
 
