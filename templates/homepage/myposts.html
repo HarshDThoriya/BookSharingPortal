@@ -7,7 +7,7 @@
     <a class="navbar-brand" style="color: white" href="{% url 'homepage:home' %}">Home</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link"  style="color: white; margin-top: 2px;" href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
+    <a class="nav-link" id="addp" style="color: white; margin-top: 2px;" href="#" data-toggle="modal" data-target="#myModal">Add Post</a>
   </li>
 </ul><!--   #17a2b8;  -->
 
@@ -16,17 +16,16 @@
       <input style="width: 200px; height: 35px;" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="homesearch">
       <button style="width: 30px; height: 35px;" type="submit"><i class="fa fa-search"></i></button>
     </form>
-  
 
-  
   <li class="nav-item dropdown ml-auto" style="margin-top: -2rem;">
     <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/media/{{piclink.profile_picture}}" class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
       </a>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="{% url 'homepage:myposts' %}">My Post</a>
       
+      <a class="dropdown-item" href="{% url 'homepage:profile' %}">Profile</a>
       <div class="dropdown-divider"></div>
       <a class="dropdown-item" href="{% url 'loginapp:user_logout' %}">Logout</a>
+      
     </div>
   </li>
 </div>
@@ -54,8 +53,8 @@
   float: left; 
   margin-left: 30px;
   margin-top:20px;
-  width: 225px;
-  height: 200px;
+  width: 232px;
+  height: 260px;
   border-radius: 40px;
   box-shadow: 5px 5px 3px 1px rgba(0,0,0,0.1), -5px -5px 3px 1px rgba(0,0,0,0.22);
   cursor: pointer;
@@ -81,7 +80,7 @@
   font-family: sans-serif;
   font-weight: bold;
   font-size: 30px;
-  margin-top: -10px;
+  margin-top: -20px;
   height: 40px;
 }
 
@@ -121,7 +120,7 @@
       
       
       <div class="modal-body">
-        <form method="POST" action="{% url 'homepage:addpost' %}" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'homepage:addpost1' %}" enctype="multipart/form-data">
           {% csrf_token %}
           {{form.as_p}}
           
@@ -148,7 +147,7 @@
           let product_id = $(this).attr('id');
 
           $.ajax({
-              url:'/homepage/home/',
+              url:'/homepage/myposts/',
               type:'POST',
               data: $('#form_have_product_'+product_id).serialize(),
               success:function(response){
@@ -171,11 +170,31 @@
     $('#type').text(product_data.tp);
     $('#pic1').attr('src','/media/'+product_data.pic1)
     $('#pic2').attr('src','/media/'+product_data.pic2)
+    //var url = "{% url 'homepage:delete_post' %}";
+    //var p_id = product_data.id
+    //$('.bttn').attr('id',p_id);
   };
 
+
+  $(function(){
+      $('.delete_post').on('click', function (e) {
+          e.preventDefault();
+          let post_id = $(this).attr('id');
+          $.ajax({
+              url:'/homepage/delete/',
+              type:'POST',
+              data: {'p_id':post_id},
+              success:function(response){
+                  console.log(response);
+                  location.reload();
+              },
+              error:function(){
+                  console.log('something went wrong here');
+              },
+          });
+      });
+  });
 </script>
-
-
 
 <div class="modal fade" id="myModal1">
   <div class="modal-dialog modal-lg">
@@ -218,101 +237,28 @@
 
 
 
-<div style="position: absolute;
-top: 62px;
-left: 6px;
-width: 20%;
-height: 89%;
-background-color: lightgrey;
-border-radius: 15px;
-padding-top: 20px;
-position: fixed;">
-
-<p style="margin-left: 40%; zoom: 1.3;">Filter </p>
-<form  method="GET" action="." style="margin-left: 10%;">
-  {% csrf_token %}
-  <div class="custom-control custom-checkbox mb-3">
-    <input type="checkbox"  class="custom-control-input" id="customCheck1" name="book" >
-    <label class="custom-control-label" for="customCheck1" style="zoom: 1.2;">Book</label>
-  </div>
-  <div class="custom-control custom-checkbox mb-3">
-    <input type="checkbox"  class="custom-control-input" id="customCheck2" name="stationary">
-    <label class="custom-control-label" for="customCheck2" style="zoom: 1.2;">Stationary</label>
-  </div>
-  <div class="custom-control custom-checkbox mb-3">
-    <input type="checkbox"  class="custom-control-input" id="customCheck3" name="others">
-    <label class="custom-control-label" for="customCheck3" style="zoom: 1.2;">Others</label>
-  </div>
-  <input type="submit" style="margin-left: 30%;" class="btn btn-info" value="Apply">
-</form>
-
-<p style="margin-left: 37%; zoom: 1.3; margin-top: 20px;">Sort By </p>
-<form method="GET" action="." style="margin-left: 10%;">
-  {% csrf_token %}
-  <div class="custom-control custom-radio">
-    <input type="radio" class="custom-control-input" id="customRadio1" name="byitemname">
-    <label class="custom-control-label" for="customRadio1" style="zoom: 1.2; margin-bottom: 12px;">Item name</label>
-  </div>
-  <div class="custom-control custom-radio">
-    <input type="radio" class="custom-control-input" id="customRadio2" name="timeadded">
-    <label class="custom-control-label" for="customRadio2" style="zoom: 1.2; margin-bottom: 18px;">Time added</label>
-  </div>
-  <input type="submit" style="margin-left: 30%;" class="btn btn-info" value="Apply">
-</form>
-
-</div>
-
 
 
   {% for i in posts%}
-  <!--<a href="#" id="{{i.id}}" data-id="{{i.id}}" 
-  style="text-decoration: none; color: inherit;" data-toggle="modal" 
-  data-target="#myModal1" class="show_product" >
-
-    <div class="box" style="display: block; 
-    width: 24%; 
-    height: 60%;
-    float: left; 
-    padding-top: 0px; 
-    margin-left: 0; 
-    margin-right: 1.002%; 
-    margin-bottom: 1%; 
-    background-color: lightgrey; 
-    border-radius: 10px;
-    border:solid 2px lightgrey;
-    position: relative;
-    ">
-      <img src="/media/{{i.item_pic1}}" class="card-img-top" style="margin-left: 0px; width: 100%; height: 75%; border-radius: 10px 10px 0px 0px;" >
-      
-      <div style="word-wrap: break-word;"><center><p style="margin-top:10px; font-size: larger;"> {{i.item_name}}</p></center>
-        
-      </div>
-      <form name="form" action="#" id="form_have_product_{{i.id}}" method="POST">
-        {% csrf_token %}
-        <input name="id" id="product_id_submit" type="text" value="{{i.id}}" hidden="true"/>
-      </form>
-    </div>
-</a>-->
 
 
-<a href="#" id="{{i.id}}" data-id="{{i.id}}" 
-style="text-decoration: none; color: inherit;" data-toggle="modal" 
-data-target="#myModal1" class="show_product" >
+
 
   
   <div class="card 1" >
-    <div class="card_image" style="height: 90%;"> <img src="/media/{{i.item_pic1}}" /> </div>
-    <div class="card_title title-white" style="word-wrap: break-word;">
+    <div class="card_image show_product" data-toggle="modal" 
+    data-target="#myModal1" id="{{i.id}}" data-id="{{i.id}}" style="height: 85%;"> <img src="/media/{{i.item_pic1}}" /> </div>
+    <div class="card_title title-white show_product" data-toggle="modal" 
+    data-target="#myModal1" id="{{i.id}}" data-id="{{i.id}}" style="word-wrap: break-word; height: 7%;">
       <p style="color: black; font-size: 15px;" style="white-space: initial;">{{i.item_name|slice:"0:20"}}</p>
     </div>
     <form name="form" action="#" id="form_have_product_{{i.id}}" method="POST">
       {% csrf_token %}
       <input name="id" id="product_id_submit" type="text" value="{{i.id}}" hidden="true"/>
     </form>
-  </div>
-  
-  </a>
+    <button class="delete_post" id="{{i.id}}" style="height: 20%; width: 50%; float: left; border-radius: 40px;"> Delete</button>
+    <button style="height: 20%; width: 50%; float: right; border-radius: 40px;">Edit</button>
+  </div>  
 
 {% endfor%}
-
 {% endblock %}

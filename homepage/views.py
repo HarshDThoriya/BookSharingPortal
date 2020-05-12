@@ -18,6 +18,7 @@ import copy
 import json
 from django.forms.models import model_to_dict
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 ## other views functions are here.... ##
 
@@ -98,9 +99,27 @@ def addpost(request):
     
     return HttpResponseRedirect(reverse('homepage:home'))
 
+def addpost1(request):
+    
+    if request.method == 'POST':
+        form = ItemForm(request.POST,request.FILES)
+
+        if form.is_valid():
+            f=form.save(commit=False)
+            f.user=request.user
+            #f.user.set([request.user]
+            #form.user = User.objects.get(username=request.user.username)
+            
+            f.save()
+
+            return HttpResponseRedirect(reverse('homepage:myposts'))
+    
+    return HttpResponseRedirect(reverse('homepage:myposts'))
+
+
 def myPosts(request):
     psts=itemInfo.objects.values()
-    posts = filter(request)
+    posts = filter1(request)
     form = forms.ItemForm()
     piclink= UserProfileInfo.objects.all().filter(user=request.user)
     context={'form':form,'posts':posts,'piclink':piclink}
@@ -116,8 +135,32 @@ def myPosts(request):
         des = p.item_des
         pic1 = str(p.item_pic1)
         pic2 = str(p.item_pic2)
-        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2})
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2, 'id':ID})
     else:
-        return render(request,'homepage/home.html',context)
+        return render(request,'homepage/myposts.html',context)
 
 
+@csrf_exempt
+def deletePost(request):
+    if request.method == 'POST' and request.is_ajax():
+        ID = request.POST.get('p_id')
+        print("ID is ",ID)
+        p = itemInfo.objects.get(pk=ID) 
+        p.delete()
+        return HttpResponseRedirect(reverse('homepage:myposts'))
+
+def filter1(request):
+    #qs = Journal.objects.all()
+    all_posts = itemInfo.objects.all().filter(user=request.user)
+    #categories = Category.objects.all()
+    title_contains_query = request.GET.get('homesearch')
+    book=request.GET.get('book')
+    stationary=request.GET.get('stationary')
+    others=request.GET.get('others')
+    byitemname=request.GET.get('byitemname')
+    
+
+    if is_valid_queryparam(title_contains_query):
+        all_posts = all_posts.filter(item_name__icontains=title_contains_query)
+
+    return all_posts

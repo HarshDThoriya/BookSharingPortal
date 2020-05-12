@@ -9,5 +9,7 @@ urlpatterns=[
     url(r'^home/$',views.home,name="home"),
     url(r'^profile/$',views.profile,name="profile"),
     url(r'^addpost/$',views.addpost,name="addpost"),
+    url(r'^addpost1/$',views.addpost1,name="addpost1"),
     url(r'^myposts/$',views.myPosts,name="myposts"),
+    url(r'^delete/$',views.deletePost,name="delete_post"),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
