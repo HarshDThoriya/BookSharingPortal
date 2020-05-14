@@ -26,7 +26,9 @@ def home(request):
     psts=itemInfo.objects.values()
     posts = filter(request)
     form = forms.ItemForm()
-    piclink= UserProfileInfo.objects.all().filter(user=request.user)
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
     context={'form':form,'posts':posts,'piclink':piclink}
 
 
@@ -34,13 +36,20 @@ def home(request):
         ID = request.POST.get('id')
         p = itemInfo.objects.get(pk=ID) 
         name = p.item_name 
+        usr = "Harsh"
         t = p.item_type
+        if t=='B':
+            t='Book'
+        elif t=='S':
+            t='Stationary'
+        else:
+            t='Others'
         dt = p.post_datetime
         by = p.item_author
         des = p.item_des
         pic1 = str(p.item_pic1)
         pic2 = str(p.item_pic2)
-        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2})
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2,'usr':usr})
     else:
         return render(request,'homepage/home.html',context)
 
@@ -122,7 +131,9 @@ def myPosts(request):
     posts = filter1(request)
     form = forms.ItemForm()
     form1 = forms.ItemForm()
-    piclink= UserProfileInfo.objects.all().filter(user=request.user)
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
     context={'form':form,'posts':posts,'piclink':piclink,'form1':form1}
 
 
@@ -131,6 +142,12 @@ def myPosts(request):
         p = itemInfo.objects.get(pk=ID) 
         name = p.item_name 
         t = p.item_type
+        if t=='B':
+            t='Book'
+        elif t=='S':
+            t='Stationary'
+        else:
+            t='Others'
         dt = p.post_datetime
         by = p.item_author
         des = p.item_des
@@ -184,11 +201,15 @@ def filter1(request):
 def edit_post(request,p):
     pt = itemInfo.objects.get(pk=p)
     form = forms.ItemForm(instance=pt)
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
+
     if request.method == "POST":
         form = forms.ItemForm(request.POST,request.FILES,instance=pt)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('homepage:myposts'))
     else:
-        return render(request,'homepage/edit_post.html',{'editform':form})
+        return render(request,'homepage/edit_post.html',{'editform':form,'piclink':piclink})
         

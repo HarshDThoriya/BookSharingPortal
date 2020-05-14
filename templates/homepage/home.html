@@ -1,7 +1,74 @@
 {% extends "homepage/base.html" %}
 {% load static %}
 {% block nav_block %}
-
+<style>
+  .container-4{
+  overflow: hidden;
+  width: 300px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.container-4 input#search{
+  width: 300px;
+  height: 35px;
+  background: white;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  color: #111;
+  padding-left: 15px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.container-4 input#search::-webkit-input-placeholder {
+   color: #65737e;
+}
+ 
+.container-4 input#search:-moz-placeholder { /* Firefox 18- */
+   color: #65737e;  
+}
+ 
+.container-4 input#search::-moz-placeholder {  /* Firefox 19+ */
+   color: #65737e;  
+}
+ 
+.container-4 input#search:-ms-input-placeholder {  
+   color: #65737e;  
+}
+.container-4 button.icon{
+  -webkit-border-top-right-radius: 5px;
+  -webkit-border-bottom-right-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -moz-border-radius-bottomright: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+ 
+  border: none;
+  background: lightgrey;
+  height: 50px;
+  width: 50px;
+  color: #4f5b66;
+  opacity: 0;
+  font-size: 10pt;
+ 
+  -webkit-transition: all .55s ease;
+  -moz-transition: all .55s ease;
+  -ms-transition: all .55s ease;
+  -o-transition: all .55s ease;
+  transition: all .55s ease;
+}
+.container-4:hover button.icon, .container-4:active button.icon, .container-4:focus button.icon{
+    outline: none;
+    opacity: 1;
+    height: 35px;
+    margin-left: -50px;
+  }
+ 
+  .container-4:hover button.icon:hover{
+    background: grey;
+  }
+</style>
 <ul class="navbar-nav mr-auto">
   <li class="nav-item">
     <a class="navbar-brand" style="color: white" href="{% url 'homepage:home' %}">Home</a>
@@ -11,16 +78,23 @@
   </li>
 </ul><!--   #17a2b8;  -->
 
-  <div  method="GET" action="." style="margin-left: 20px;" class="form-inline ml-auto">
-    <form class=" my-2 my-lg-0" >
-      <input style="width: 200px; height: 35px;" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" name="homesearch">
-      <button style="width: 30px; height: 35px;" type="submit"><i class="fa fa-search"></i></button>
+  <div  method="GET" action="." style="margin-left: 20px; margin-right: 20px;" class="form-inline ml-auto">
+    <form class=" my-2 my-lg-0" style="margin-right: -90px;" >
+      <div class="box">
+        <div class="container-4">
+          <input style="width: 200px; height: 35px;" id="search" type="text" placeholder="Search" aria-label="Search" name="homesearch" />
+          <button style="height: 35px;" class="icon" type="submit"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+  
     </form>
   
-
-  
+    
   <li class="nav-item dropdown ml-auto" style="margin-top: -2rem;">
-    <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img src="/media/{{piclink.profile_picture}}" class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
+    <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" 
+    href="#" role="button" aria-haspopup="true" aria-expanded="false">
+    <img src="/media/{{piclink}}" 
+    class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
       </a>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="{% url 'homepage:myposts' %}">My Post</a>
@@ -169,7 +243,7 @@
     $('#product_name').text(product_data.p_name);
     $('#desc').text(product_data.desc);
     $('#datetime').text(product_data.dt);
-    $('#by').text(product_data.by);
+    $('#by').text("By "+product_data.by);
     $('#type').text(product_data.tp);
     $('#pic1').attr('src','/media/'+product_data.pic1)
     $('#pic2').attr('src','/media/'+product_data.pic2)
@@ -179,13 +253,16 @@
 
 
 <style>
-  
+    .modal-dialog-center {
+    margin-top: 10%;
+}
+
 </style>
 
-<div class="modal fade" id="myModal1">
-  <div class="modal-dialog modal-lg">
+<div class="modal animated fade" tabindex="-1" id="myModal1">
+  <div class="modal-dialog modal-lg modal-dialog-center">
     <div class="modal-content">
-      <div class="modal-body">
+      <div class="modal-body" style="height:382px;">
         <div class="row">
           <div class="col-lg-5">
             <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
@@ -207,12 +284,19 @@
               </a>
             </div>
           </div>
-          <div class="col-lg-7" style="padding-left: 10px; margin-top: 1rem; word-wrap: break-word;">
-            <h2 id="product_name" style="white-space: initial;"></h2>
-            <p id="type"></p> by <p id="by"></p>
-            <div id="description1" class="description1" style="color: #21518A;">
-                <p id="desc"></p>
+          <div class="col-lg-6" style="padding-left: 10px; margin-top: 1rem; word-wrap: break-word;">
+            <center><h2 id="product_name" style="white-space: initial;"></h2></center>
+            <center><p id="type"></p> </center>
+            <center><p style="margin-top: -2px;" id="by"></p></center>
+            <div id="description1" class="description1" 
+            style="color: black; background-color: #fafafa; overflow-y: auto;width: 430px; height: 150px; word-wrap: break-word;" >
+                <p id="desc" style="white-space: initial;"></p>
             </div>
+            <div style="position: absolute;
+            bottom: 5px;
+            color: gray;
+            right: 5px;
+            margin-bottom: -18px; margin-right: -60px; padding-right: 0px;" id="datetime"></div>
           </div>
         </div>
       </div>
@@ -251,7 +335,7 @@ position: fixed;">
   <input type="submit" style="margin-left: 30%;" class="btn btn-info" value="Apply">
 </form>
 
-<p style="margin-left: 37%; zoom: 1.3; margin-top: 20px;">Sort By </p>
+<p style="margin-left: 37%; zoom: 1.3; margin-top: 35px;">Sort By </p>
 <form method="GET" action="." style="margin-left: 10%;">
   {% csrf_token %}
   <div class="custom-control custom-radio">
