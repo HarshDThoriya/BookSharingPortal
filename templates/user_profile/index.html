@@ -5,19 +5,13 @@
 <head>
 	<title>User Profile</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<!-- <meta name="description" content="Civic - CV Resume">
-	<meta name="keywords" content="resume, civic, onepage, creative, html">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-	<!-- Favicon -->   
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<link href="../../static/user_profile/img/favicon.ico" rel="shortcut icon"/>
-
-	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Sans:400,400i,600,600i,700" rel="stylesheet">
-
-	<!-- Stylesheets -->
 	<link rel="stylesheet" href="../../static/user_profile/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="../../static/user_profile/css/font-awesome.min.css"/>
 	<link rel="stylesheet" href="../../static/user_profile/css/flaticon.css"/>
@@ -25,28 +19,44 @@
 	<link rel="stylesheet" href="../../static/user_profile/css/magnific-popup.css"/>
 	<link rel="stylesheet" href="../../static/user_profile/css/style.css"/>
 
-	<!--NavBar Link-->
-	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>-->
 </head>
 <body>
-	<!-- Page Preloder -->
+	
+
+	<nav class="navbar navbar-expand-sm fixed-top" style="background-color: #285163;">
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item">
+		  <a class="navbar-brand" style="color: white" href="{% url 'homepage:home' %}">Home</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" id="addp" style="color: white; margin-top: 2px;" href="{% url 'user_profile:edit_profile' %}">Edit profile</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="addp" style="color: white; margin-top: 2px;" href="{% url 'user_profile:change_password' %}">Change Password</a>
+		  </li>
+	  </ul><!--   #17a2b8;  -->
+	  
+		
+		  
+		<li class="nav-item dropdown ml-auto" style="margin-top: -2rem;">
+		  <a class="nav-link dropdown-toggle mx-3" data-toggle="dropdown" 
+		  href="#" role="button" aria-haspopup="true" aria-expanded="false">
+		  <img src="/media/{{piclink}}" 
+		  class="ml-auto" style="position: absolute; margin-left: 0px; width: 60%; height: 50%; border-radius: 10px;" >
+			</a>
+		  <div class="dropdown-menu">
+			<a class="dropdown-item" href="{% url 'homepage:myposts' %}">My Post</a>
+			<div class="dropdown-divider"></div>
+			<a class="dropdown-item" href="{% url 'loginapp:user_logout' %}">Logout</a>
+			
+		  </div>
+		</li>
+	 
+	  </nav>
 	<div id="preloder">
 		<div class="loader"></div>
 	</div>
 
-	{% block nav_block %}
-
-<ul class="navbar-nav">
-	<!--<li><a class="navbar-link" href="../../templates/user_profile/edit_profile.html">Edit profile</a></li>-->  
-	<li><a class="nav-item" style="font-size:15px;" href="{% url 'user_profile:edit_profile' %}">Edit profile</a></li>
-	<li><a class="nav-item" style="font-size:15px;" href="{% url 'user_profile:change_password' %}">Change Password</a></li>
-	<li><a class="nav-item" style="font-size:15px;" href="{% url 'loginapp:user_logout' %}">Logout</a></li>
-</ul>
-{% endblock %}
 
     <section class="hero-section spad">
 		<div class="container-fluid">
@@ -56,32 +66,23 @@
 						<div class="col-lg-6">
 							<div class="hero-text">
 								<h2 style="font-size:90px; ">{{ user }}</h2>
-								<p>I’m a digital designer in love with photography, painting and discovering new worlds and cultures.</p>
-							</div>
+								</div>
 							<div class="hero-info" style="width: 100%;">
 								<h2>General Info</h2>
 								<ul>
-									<!--<li><span>Date of Birth</span>Aug 25, 1988</li>-->
 									<li><span>First Name</span>{{ user.first_name }}</li>
 									<li><span>Last Name</span>{{ user.last_name }}</li>
-									<!--<li><span>Address</span>Rosia Road 55, Gibraltar, UK</li>-->
 									<li><span>E-mail</span>{{ user.email }}</li>
-								 	<!--<li><span>portfolio</span>{{ user.portfolio_site }}</li>-->
-									<!--<form method="post" class="uniForm">-->
 
 									<li><span>Phone </span>{{ phone_number }}</li>
 									<li><span>Portfolio site </span>{{ portfolio_site }}</li>
-									<!--<li><span>Phone </span>{{ form.profile_picture }}</li>-->
-									<!--</form>-->
 								</ul>
 							</div>
 						</div>
 						<div class="col-lg-6">
 							<figure class="hero-image">
-								<!--<img style="border-radius: 50%; 
-								width:300px;height:300px;" src="../../static/user_profile/img/hero.jpg" alt="5">-->
 								<img style="border-radius: 50%; 
-								width:300px;height:300px;" src="../../media/{{ profile_picture }}" alt="5">
+								width:400px;height:400px; margin-left: 120px;" src="../../media/{{ profile_picture }}" alt="5">
 							</figure>
 						</div>
 					</div>
@@ -89,20 +90,6 @@
 			</div>
 		</div>
 	</section>
-	<!-- Hero section end -->
-<!-- Footer section start -->
-	<footer class="footer-section">
-		<div class="container text-center">
-			<div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</div>
-		</div>
-	</footer>
-	<!-- Footer section end -->
-
-
-	<!--====== Javascripts & Jquery ======-->
 	<script src="../../static/user_profile/js/jquery-2.1.4.min.js"></script>
 	<script src="../../static/user_profile/js/bootstrap.min.js"></script>
 	<script src="../../static/user_profile/js/owl.carousel.min.js"></script>

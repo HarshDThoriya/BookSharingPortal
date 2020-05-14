@@ -141,6 +141,7 @@ def myPosts(request):
         ID = request.POST.get('id')
         p = itemInfo.objects.get(pk=ID) 
         name = p.item_name 
+        usr = "Harsh"
         t = p.item_type
         if t=='B':
             t='Book'
@@ -153,7 +154,7 @@ def myPosts(request):
         des = p.item_des
         pic1 = str(p.item_pic1)
         pic2 = str(p.item_pic2)
-        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2, 'id':ID})
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2,'usr':usr})
     else:
         return render(request,'homepage/myposts.html',context)
 

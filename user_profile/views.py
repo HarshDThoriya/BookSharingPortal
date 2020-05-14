@@ -5,24 +5,29 @@ from django.http import HttpResponseRedirect
 from user_profile.forms import EditProfileForm,EditProfileInfoForm
 from django.contrib.auth import update_session_auth_hash
 from loginapp.forms import ExtendedUserCreationForm,UserProfileInfoForm
+from loginapp.models import UserProfileInfo
 
 
 
 # Create your views here.
 def user_profile(request):
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
     if request.method == "POST":
         form = UserProfileInfoForm(request.POST,instance=request.user)
         #phone_number = request.POST.get('phone_number')
         print(form.data)
         phone_number = form.data['phone_number']
-        args = {'user':request.user,'form':form,'phone_number':phone_number[0]}
+        args = {'user':request.user,'form':form,'phone_number':phone_number[0],'piclink':piclink}
         return render(request,'user_profile/index.html',args)
     else:
 
         args = {'user':request.user , 
                 'phone_number': request.user.userprofileinfo.phone_number,
                 'portfolio_site':request.user.userprofileinfo.portfolio_site,
-                'profile_picture':request.user.userprofileinfo.profile_picture}
+                'profile_picture':request.user.userprofileinfo.profile_picture,
+                'piclink':piclink}
         print('profile_picture : {}'.format(request.user.userprofileinfo.profile_picture))
         return render(request,'user_profile/index.html', args)
 

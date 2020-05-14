@@ -219,7 +219,8 @@
 
 <script>
 
-  $(function(){
+  
+$(function(){
       $('.show_product').on('click', function (e) {
           e.preventDefault();
           let product_id = $(this).attr('id');
@@ -244,15 +245,11 @@
     $('#product_name').text(product_data.p_name);
     $('#desc').text(product_data.desc);
     $('#datetime').text(product_data.dt);
-    $('#by').text(product_data.by);
+    $('#by').text("By "+product_data.by);
     $('#type').text(product_data.tp);
     $('#pic1').attr('src','/media/'+product_data.pic1)
     $('#pic2').attr('src','/media/'+product_data.pic2)
-    //var url = "{% url 'homepage:delete_post' %}";
-    //var p_id = product_data.id
-    //$('.bttn').attr('id',p_id);
   };
-
 
   $(function(){
       $('.delete_post').on('click', function (e) {
@@ -310,10 +307,10 @@
 
 </script>
 
-<div class="modal fade" id="myModal1">
+<div class="modal animated fade" tabindex="-1" id="myModal1">
   <div class="modal-dialog modal-lg modal-dialog-center">
     <div class="modal-content">
-      <div class="modal-body">
+      <div class="modal-body" style="height:382px;">
         <div class="row">
           <div class="col-lg-5">
             <div id="carousel-thumb" class="carousel slide carousel-fade carousel-thumbnails" data-ride="carousel">
@@ -335,19 +332,25 @@
               </a>
             </div>
           </div>
-          <div class="col-lg-7" style="padding-left: 10px; margin-top: 1rem; word-wrap: break-word;">
-            <h2 id="product_name" style="white-space: initial;"></h2>
-            <p id="type"></p> by <p id="by"></p>
-            <div id="description1" class="description1" style="color: #21518A;">
-                <p id="desc"></p>
+          <div class="col-lg-6" style="padding-left: 10px; margin-top: 1rem; word-wrap: break-word;">
+            <center><h2 id="product_name" style="white-space: initial; overflow-y: auto; height: 50px;"></h2></center>
+            <center><p id="type"></p> </center>
+            <center><p style="margin-top: -2px;" id="by"></p></center>
+            <div id="description1" class="description1" 
+            style="color: black; background-color: #fafafa; overflow-y: auto;width: 430px; height: 180px; word-wrap: break-word;" >
+                <p id="desc" style="white-space: initial;"></p>
             </div>
+            <div style="position: absolute;
+            bottom: 5px;
+            color: gray;
+            right: 5px;
+            margin-bottom: -18px; margin-right: -60px; padding-right: 0px;" id="datetime"></div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 
   {% for i in posts%}
   <div class="card 1" >
