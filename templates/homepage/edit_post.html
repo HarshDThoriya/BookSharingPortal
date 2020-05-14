@@ -1,0 +1,10 @@
+{% extends "homepage/base.html" %}
+{% block body_block %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{editform.as_p}}
+    <input type="submit">
+
+</form>
+
+{% endblock %}

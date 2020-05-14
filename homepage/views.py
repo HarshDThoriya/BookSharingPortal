@@ -121,8 +121,9 @@ def myPosts(request):
     psts=itemInfo.objects.values()
     posts = filter1(request)
     form = forms.ItemForm()
+    form1 = forms.ItemForm()
     piclink= UserProfileInfo.objects.all().filter(user=request.user)
-    context={'form':form,'posts':posts,'piclink':piclink}
+    context={'form':form,'posts':posts,'piclink':piclink,'form1':form1}
 
 
     if request.method == 'POST' and request.is_ajax():
@@ -164,3 +165,30 @@ def filter1(request):
         all_posts = all_posts.filter(item_name__icontains=title_contains_query)
 
     return all_posts
+
+#@csrf_exempt
+#def edit_post_data(request):
+#    if request.method == 'POST' and request.is_ajax():
+#        ID = request.POST.get('p_id')
+#        p = itemInfo.objects.get(pk=ID) 
+#        name = p.item_name 
+#        t = p.item_type
+#        dt = p.post_datetime
+#        by = p.item_author
+#        des = p.item_des
+#        pic1 = str(p.item_pic1)
+#        pic2 = str(p.item_pic2)
+#        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2, 'id':ID}) 
+    
+
+def edit_post(request,p):
+    pt = itemInfo.objects.get(pk=p)
+    form = forms.ItemForm(instance=pt)
+    if request.method == "POST":
+        form = forms.ItemForm(request.POST,request.FILES,instance=pt)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('homepage:myposts'))
+    else:
+        return render(request,'homepage/edit_post.html',{'editform':form})
+        

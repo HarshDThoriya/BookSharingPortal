@@ -12,4 +12,6 @@ urlpatterns=[
     url(r'^addpost1/$',views.addpost1,name="addpost1"),
     url(r'^myposts/$',views.myPosts,name="myposts"),
     url(r'^delete/$',views.deletePost,name="delete_post"),
+    url(r'^edit_post/(?P<p>.*)/$',views.edit_post,name="edit_post"),
+    #url(r'^edit_post_data/$',views.edit_post_data,name="edit_post_data"),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
