@@ -32,6 +32,9 @@ def user_profile(request):
         return render(request,'user_profile/index.html', args)
 
 def edit_profile(request):
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
     if request.method == "POST":
         print('In Post')
         #form = EditProfileForm(request.POST, instance = request.user)
@@ -55,7 +58,7 @@ def edit_profile(request):
             args = {'user':request.user , 
                 'phone_number': request.user.userprofileinfo.phone_number,
                 'portfolio_site':request.user.userprofileinfo.portfolio_site,
-                'profile_picture':request.user.userprofileinfo.profile_picture}
+                'profile_picture':request.user.userprofileinfo.profile_picture,'piclink':piclink}
             print('phone_number : {}'.format(request.user.userprofileinfo.phone_number))
             print('profile_picture : {}'.format(request.user.userprofileinfo.profile_picture))
             return render(request,'../templates/user_profile/index.html',args)
@@ -68,11 +71,14 @@ def edit_profile(request):
         print('ELSE Edit profile GET')
         form1 = ExtendedUserCreationForm(instance = request.user)
         form2 = UserProfileInfoForm(instance=request.user.userprofileinfo)
-        args = {'form1': form1,'form2':form2}
+        args = {'form1': form1,'form2':form2,'piclink':piclink}
         return render(request,'../templates/user_profile/edit_profile.html',args)
         
 
 def change_password(request):
+    piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
+    print("piclink is ",piclink[0]['profile_picture'])
+    piclink=piclink[0]['profile_picture']
     if request.method == "POST":
         form = PasswordChangeForm(data=request.POST, user = request.user)
 
@@ -82,7 +88,7 @@ def change_password(request):
             args = {'user':request.user , 
                 'phone_number': request.user.userprofileinfo.phone_number,
                 'portfolio_site':request.user.userprofileinfo.portfolio_site,
-                'profile_picture':request.user.userprofileinfo.profile_picture}
+                'profile_picture':request.user.userprofileinfo.profile_picture,'piclink':piclink}
             print('phone_number : {}'.format(request.user.userprofileinfo.phone_number))
             return render(request,'../templates/user_profile/index.html',args)
             #return redirect('index')
@@ -94,5 +100,5 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user)
         print('>>> Else hua GET')
 
-        args = {'form': form}
+        args = {'form': form,'piclink':piclink}
         return render(request,'../templates/user_profile/change_password.html',args)
