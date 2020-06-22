@@ -8,8 +8,6 @@ from loginapp.forms import ExtendedUserCreationForm,UserProfileInfoForm
 from loginapp.models import UserProfileInfo
 
 
-
-# Create your views here.
 def user_profile(request):
     piclink = UserProfileInfo.objects.filter(user=request.user).values('profile_picture')
     print("piclink is ",piclink[0]['profile_picture'])

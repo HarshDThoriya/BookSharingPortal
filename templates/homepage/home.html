@@ -244,6 +244,8 @@
     $('#desc').text(product_data.desc);
     $('#datetime').text(product_data.dt);
     $('#by').text("By "+product_data.by);
+    $('#usr').text(""+product_data.usr);
+    $('#owner').text("Contact Owner : "+product_data.em);
     $('#type').text(product_data.tp);
     $('#pic1').attr('src','/media/'+product_data.pic1)
     $('#pic2').attr('src','/media/'+product_data.pic2)
@@ -289,9 +291,15 @@
             <center><p id="type"></p> </center>
             <center><p style="margin-top: -2px;" id="by"></p></center>
             <div id="description1" class="description1" 
-            style="color: black; background-color: #fafafa; overflow-y: auto;width: 430px; height: 180px; word-wrap: break-word;" >
+            style="color: black; background-color: #fafafa; overflow-y: auto;width: 430px; height: 150px; word-wrap: break-word;" >
                 <p id="desc" style="white-space: initial;"></p>
             </div>
+            <p style="margin-top: 4px;" id="owner"></p>
+            <div style="position: absolute;
+            bottom: 5px;
+            color: gray;
+            float: left;
+            margin-bottom: -18px; margin-left: -10px; padding-right: 0px;" id="usr"></div>
             <div style="position: absolute;
             bottom: 5px;
             color: gray;

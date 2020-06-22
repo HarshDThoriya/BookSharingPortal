@@ -35,8 +35,10 @@ def home(request):
     if request.method == 'POST' and request.is_ajax():
         ID = request.POST.get('id')
         p = itemInfo.objects.get(pk=ID) 
+        e = User.objects.filter(username=str(p.user)).values('email')
         name = p.item_name 
-        usr = "Harsh"
+        usr = str(p.user)
+        em=str(e[0]['email'])
         t = p.item_type
         if t=='B':
             t='Book'
@@ -49,7 +51,7 @@ def home(request):
         des = p.item_des
         pic1 = str(p.item_pic1)
         pic2 = str(p.item_pic2)
-        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2,'usr':usr})
+        return JsonResponse({'p_name':name,'tp':t,'desc':des,'dt':dt,'by':by,'pic1':pic1,'pic2':pic2,'usr':usr,'em':em})
     else:
         return render(request,'homepage/home.html',context)
 
@@ -141,7 +143,7 @@ def myPosts(request):
         ID = request.POST.get('id')
         p = itemInfo.objects.get(pk=ID) 
         name = p.item_name 
-        usr = "Harsh"
+        usr = "dddd"
         t = p.item_type
         if t=='B':
             t='Book'
