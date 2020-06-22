@@ -1,3 +1,2 @@
 # BookSharingPortal
-Not complete yet,
-Under Developement 
+Completed overall development, only few css changes left.
